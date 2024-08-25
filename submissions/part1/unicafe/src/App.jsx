@@ -66,11 +66,11 @@ const App = () => {
   return (
     <div>
       <h2>give feedback</h2>
-
       <Button type={GOOD} onClick={handleGoodClick} />
       <Button type={NEUTRAL} onClick={handleNeutralClick} />
       <Button type={BAD} onClick={handleBadClick} />
 
+      <h2>statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
 
     </div>
