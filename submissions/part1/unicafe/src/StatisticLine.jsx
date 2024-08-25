@@ -1,8 +1,9 @@
 
 export const StatisticLine = ({ type, result }) => {
   return (
-    <div>
-      {type}{"  "}{result}{type == "positive" && "%"}
-    </div>
+      <tr>
+        <td>{type}</td>
+        <td>{result}{type == "positive" && "%"}</td>
+      </tr>
   );
 };
