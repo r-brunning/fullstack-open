@@ -13,7 +13,7 @@ const Button = ({type, onClick}) => {
 const Result = ({type, result}) => {
   return (
     <div>
-      {type}{"  "}{result}
+      {type}{"  "}{result}{type == "positive" && "%"}
     </div>
   )
 }
@@ -22,10 +22,46 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
+  const [average, setAverage] = useState(0)
+  const [positive, setPositive] = useState(0)
 
-  const handleGoodClick = () => setGood(good + 1)
-  const handleNeutralClick = () => setNeutral(neutral + 1)
-  const handleBadClick = () => setBad(bad + 1)
+  const handleGoodClick = () => {
+    const newGood  = good + 1
+    const newAll = all + 1
+    const newAverage = (newGood - bad) / newAll
+    const newPositive = (newGood / newAll)*100
+
+    setGood(newGood)
+    setAll(newAll)
+    setAverage(newAverage)
+    setPositive(newPositive)
+  }
+
+  const handleNeutralClick = () => {
+    const newNeutral = neutral + 1
+    const newAll = all + 1
+    const newAverage = (good - bad) / newAll
+    const newPositive = (good / newAll)*100
+
+    setNeutral(newNeutral)
+    setAll(newAll)
+    setAverage(newAverage)
+    setPositive(newPositive)
+  }
+
+  const handleBadClick = () => {
+    const newBad  = bad + 1
+    const newAll = all + 1
+    const newAverage = (good - newBad) / newAll
+    const newPositive = (good / newAll)*100
+
+    setBad(bad + 1)
+    setAll(all + 1)
+    setAverage(newAverage)
+    setPositive(newPositive)
+  }
+
 
   return (
     <div>
@@ -39,6 +75,9 @@ const App = () => {
       <Result type={GOOD} result={good} />
       <Result type={NEUTRAL} result={neutral} />
       <Result type={BAD} result={bad} />
+      <Result type="all" result={all} />
+      <Result type="average" result={average} />
+      <Result type="positive" result={positive} />
 
     </div>
   )
