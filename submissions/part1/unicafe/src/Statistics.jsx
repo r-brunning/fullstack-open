@@ -1,15 +1,16 @@
-import { Result, GOOD, NEUTRAL, BAD } from "./App";
+import { GOOD, NEUTRAL, BAD } from "./App";
+import { StatisticLine } from './StatisticLine';
 
 export const Statistics = ({ good, neutral, bad, all, average, positive }) => {
   if (all == 0) return <p>No feedback given</p>
   return (
     <>
-      <Result type={GOOD} result={good} />
-      <Result type={NEUTRAL} result={neutral} />
-      <Result type={BAD} result={bad} />
-      <Result type="all" result={all} />
-      <Result type="average" result={average} />
-      <Result type="positive" result={positive} />
+      <StatisticLine type={GOOD} result={good} />
+      <StatisticLine type={NEUTRAL} result={neutral} />
+      <StatisticLine type={BAD} result={bad} />
+      <StatisticLine type="all" result={all} />
+      <StatisticLine type="average" result={average} />
+      <StatisticLine type="positive" result={positive} />
     </>
   );
 };

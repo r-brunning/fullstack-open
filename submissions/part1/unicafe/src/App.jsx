@@ -1,23 +1,10 @@
 import { useState } from 'react'
 import { Statistics } from './Statistics';
+import { Button } from './Button';
 
 export const GOOD = "good";
 export const NEUTRAL = "neutral";
 export const BAD = "bad";
-
-const Button = ({type, onClick}) => {
-  return (
-    <button onClick={onClick}>{type}</button>
-  )
-}
-
-export const Result = ({type, result}) => {
-  return (
-    <div>
-      {type}{"  "}{result}{type == "positive" && "%"}
-    </div>
-  )
-}
 
 const App = () => {
   const [good, setGood] = useState(0)
