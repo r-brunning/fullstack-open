@@ -1,8 +1,8 @@
-# Helsinki Full Stack Open Notes
+# Helsinki Fullstack Open
 
 This repo has my [submissions](submissions/) and [notes](course-notes/) from the [Helsinki Full Stack Open](https://fullstackopen.com/en/) course. The course covers modern web development, focusing on JavaScript, React, Node.js, and related technologies. 
 
-These notes are mainly for me to keep track of what I've learned, but you're welcome to check them out.
+The notes are mainly for me to keep track of what I've learned, but you're welcome to check them out.
 
 ## Covered So Far
 Part 0 - Fundamentals of Web apps  
