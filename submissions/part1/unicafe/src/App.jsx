@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { Statistics } from './Statistics';
 
-const GOOD = "good";
-const NEUTRAL = "neutral";
-const BAD = "bad";
+export const GOOD = "good";
+export const NEUTRAL = "neutral";
+export const BAD = "bad";
 
 const Button = ({type, onClick}) => {
   return (
@@ -10,7 +11,7 @@ const Button = ({type, onClick}) => {
   )
 }
 
-const Result = ({type, result}) => {
+export const Result = ({type, result}) => {
   return (
     <div>
       {type}{"  "}{result}{type == "positive" && "%"}
@@ -62,7 +63,6 @@ const App = () => {
     setPositive(newPositive)
   }
 
-
   return (
     <div>
       <h2>give feedback</h2>
@@ -71,13 +71,7 @@ const App = () => {
       <Button type={NEUTRAL} onClick={handleNeutralClick} />
       <Button type={BAD} onClick={handleBadClick} />
 
-      <h2>statistics</h2>
-      <Result type={GOOD} result={good} />
-      <Result type={NEUTRAL} result={neutral} />
-      <Result type={BAD} result={bad} />
-      <Result type="all" result={all} />
-      <Result type="average" result={average} />
-      <Result type="positive" result={positive} />
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
 
     </div>
   )
