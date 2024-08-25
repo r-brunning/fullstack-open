@@ -1,5 +1,17 @@
 import { useState } from 'react'
 
+const MostVotes = ({ votes, anecdotes }) => {
+  const sortedEntries = Object.entries(votes).sort(([, a], [, b]) => b - a);
+  const [firstKey, firstValue] = sortedEntries[0] || ["", 0];
+  return (
+    <>
+      <h2>Most Votes</h2>
+      <p>{anecdotes[firstKey]}</p> 
+      <p>has {firstValue} votes</p>
+    </>
+  );
+};
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -37,6 +49,7 @@ const App = () => {
       <p>has {pointsArr[selected]} votes</p>
       <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
+      <MostVotes votes={pointsArr} anecdotes={anecdotes} />
     </>
   )
 }
