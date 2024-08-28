@@ -1,7 +1,6 @@
 const Course = ({ course }) => {
-  const totalExercises = course.parts.map((part) => part.exercises)
-  const total = totalExercises.reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
+  const total = course.parts.reduce(
+    (accumulator, part) => accumulator + part.exercises,
     0,
   );
 
