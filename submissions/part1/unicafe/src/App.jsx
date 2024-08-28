@@ -7,61 +7,34 @@ export const NEUTRAL = "neutral";
 export const BAD = "bad";
 
 const App = () => {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [all, setAll] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positive, setPositive] = useState(0)
+  const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0, all: 0, average: 0, positive: 0 });
 
-  const handleGoodClick = () => {
-    const newGood  = good + 1
-    const newAll = all + 1
-    const newAverage = (newGood - bad) / newAll
-    const newPositive = (newGood / newAll)*100
+  const handleClick = (type) => {
+    const newFeedback = { ...feedback, [type]: feedback[type] + 1, all: feedback.all + 1 };
+    newFeedback.average = (newFeedback.good - newFeedback.bad) / newFeedback.all;
+    newFeedback.positive = (newFeedback.good / newFeedback.all) * 100;
 
-    setGood(newGood)
-    setAll(newAll)
-    setAverage(newAverage)
-    setPositive(newPositive)
-  }
-
-  const handleNeutralClick = () => {
-    const newNeutral = neutral + 1
-    const newAll = all + 1
-    const newAverage = (good - bad) / newAll
-    const newPositive = (good / newAll)*100
-
-    setNeutral(newNeutral)
-    setAll(newAll)
-    setAverage(newAverage)
-    setPositive(newPositive)
-  }
-
-  const handleBadClick = () => {
-    const newBad  = bad + 1
-    const newAll = all + 1
-    const newAverage = (good - newBad) / newAll
-    const newPositive = (good / newAll)*100
-
-    setBad(bad + 1)
-    setAll(all + 1)
-    setAverage(newAverage)
-    setPositive(newPositive)
-  }
+    setFeedback(newFeedback);
+  };
 
   return (
     <div>
       <h2>give feedback</h2>
-      <Button type={GOOD} onClick={handleGoodClick} />
-      <Button type={NEUTRAL} onClick={handleNeutralClick} />
-      <Button type={BAD} onClick={handleBadClick} />
+      <Button type={GOOD} onClick={() => handleClick(GOOD)} />
+      <Button type={NEUTRAL} onClick={() => handleClick(NEUTRAL)} />
+      <Button type={BAD} onClick={() => handleClick(BAD)} />
 
       <h2>statistics</h2>
-      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
-
+      <Statistics 
+        good={feedback.good} 
+        neutral={feedback.neutral} 
+        bad={feedback.bad} 
+        all={feedback.all} 
+        average={feedback.average} 
+        positive={feedback.positive} 
+      />
     </div>
   )
 }
 
-export default App
+export default App;
