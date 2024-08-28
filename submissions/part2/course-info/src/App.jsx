@@ -1,14 +1,21 @@
 const Course = ({ course }) => {
+  const totalExercises = course.parts.map((part) => part.exercises)
+  const total = totalExercises.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+
   return (
     <div>
       <h2>{course.name}</h2>
       <ul>
         {course.parts.map((part) => (
-          <li>
+          <li key={part.id}>
             {part.name} {part.exercises}
           </li>
         ))}
       </ul>
+      <p><b>total of {total} exercises</b></p>
     </div>
   );
 };
