@@ -33,11 +33,16 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const newPersons = persons.concat({ name: newName, number: newNumber });
-    const newNameInPersons = persons
+
+    const newPerson = { name: newName, number: newNumber };
+
+    const newPersons = persons.concat(newPerson);
+
+    const isAlreadyInPersons = persons
       .map((person) => person.name)
       .includes(newName);
-    newNameInPersons
+
+    isAlreadyInPersons
       ? window.alert(`${newName} is already added to phonebook`)
       : setPersons(newPersons);
   };
