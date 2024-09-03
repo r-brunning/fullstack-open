@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
-import { Numbers } from "./components/Numbers";
+import { Contact } from "./components/Contact";
 import { PersonForm } from "./components/PersonForm";
-import { getAll, addPerson } from "./services/persons";
+import { getAll, addPerson, deletePerson} from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -24,7 +24,7 @@ const App = () => {
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
-
+ 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
   };
@@ -47,9 +47,20 @@ const App = () => {
     }
   };
 
-  const searchResults = persons.filter((person) =>
+  const displayedPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleDeletePerson = (id) => {
+    const personToDelete = persons.find(p => p.id === id)
+    const shouldDelete = window.confirm(`Should ${personToDelete.name} be deleted?`)
+
+    if (shouldDelete) {
+      deletePerson(id).then(() =>
+        {setPersons(persons.filter(p => p.id != id))})
+    } 
+
+  }
 
   return (
     <div>
@@ -64,7 +75,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Numbers searchResults={searchResults} />
+      <Contact displayedPersons={displayedPersons} handleDeletePerson={handleDeletePerson}/>
     </div>
   );
 };
