@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
 import { Numbers } from "./components/Numbers";
 import { PersonForm } from "./components/PersonForm";
-import axios from "axios";
-import {addPerson} from "./services/persons"
+import { getAll, addPerson } from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,13 +10,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const hook = () => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+  useEffect(() => {
+    getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
-  };
-
-  useEffect(hook, []);
+  }, []);
 
   const handleSearchChange = (event) => {
     const newSearchTerm = event.target.value;
