@@ -3,6 +3,7 @@ import { Filter } from "./components/Filter";
 import { Numbers } from "./components/Numbers";
 import { PersonForm } from "./components/PersonForm";
 import axios from "axios";
+import {addPerson} from "./services/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -31,20 +32,22 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const addPerson = (event) => {
+  const handleAddPerson = (event) => {
     event.preventDefault();
 
     const newPerson = { name: newName, number: newNumber };
-
-    const newPersons = persons.concat(newPerson);
 
     const isAlreadyInPersons = persons
       .map((person) => person.name)
       .includes(newName);
 
-    isAlreadyInPersons
-      ? window.alert(`${newName} is already added to phonebook`)
-      : setPersons(newPersons);
+    if (isAlreadyInPersons) {
+      window.alert(`${newName} is already added to phonebook`);
+    } else {
+      addPerson(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+      });
+    }
   };
 
   const searchResults = persons.filter((person) =>
@@ -58,7 +61,7 @@ const App = () => {
 
       <h2>add a new</h2>
       <PersonForm
-        addPerson={addPerson}
+        addPerson={handleAddPerson}
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
       />
