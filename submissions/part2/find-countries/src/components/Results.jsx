@@ -1,4 +1,20 @@
+import { useState } from "react";
+import { CountryDetailsCard } from "./CountryDetailsCard";
+
 export const Results = ({ numberOfResults, searchResults }) => {
+  const [showDetailsArr, setShowDetailsArr] = useState(
+    searchResults.reduce((acc, country) => {
+      acc[country.cca2] = false;
+      return acc;
+    }, {})
+  );
+
+  const toggleShowDetails = (id) => {
+    const updatedShowDetails = { ...showDetailsArr };
+    updatedShowDetails[id] = !showDetailsArr[id];
+    setShowDetailsArr(updatedShowDetails);
+  };
+
   switch (true) {
     case numberOfResults === 0:
       return <p>Start typing to see results</p>;
@@ -7,36 +23,28 @@ export const Results = ({ numberOfResults, searchResults }) => {
       const onlyCountry = searchResults[0];
 
       return (
-        <>
-          <h2>{onlyCountry.name.common}</h2>
-          <p>Capital {onlyCountry.capital}</p>
-          <p>Area {onlyCountry.area}</p>
-          <img src={onlyCountry.flags.png}></img>
-
-          <h3>Languages:</h3>
-          <ul>
-            {Object.entries(onlyCountry.languages).map(([code, language]) => (
-              <li key={code}>{language}</li>
-            ))}
-          </ul>
-        </>
+        <CountryDetailsCard country={onlyCountry}/>
       );
 
     case numberOfResults > 1 && numberOfResults <= 10:
+
       return (
         <>
           <h2>Results</h2>
           {searchResults.map((result) => (
-            <div key={result.cca2}>{result.name.common}</div>
+            <div key={result.cca2}>
+              <span>{result.name.common} </span>
+              <button onClick={() => toggleShowDetails(result.cca2)}>
+                {showDetailsArr[result.cca2] ? "Hide" : "Show"} details
+              </button>
+              {showDetailsArr[result.cca2] ? <CountryDetailsCard country={result} /> : null}
+            </div>
           ))}
         </>
       );
 
     default:
-      return (
-        <>
-          <p>Too many matches. Specify another filter.</p>
-        </>
-      );
+      return <p>Too many matches. Specify another filter.</p>
+
   }
 };
