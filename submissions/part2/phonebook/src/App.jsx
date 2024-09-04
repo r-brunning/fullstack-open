@@ -3,12 +3,14 @@ import { Filter } from "./components/Filter";
 import { Contact } from "./components/Contact";
 import { PersonForm } from "./components/PersonForm";
 import { getAll, addPerson, deletePerson} from "./services/persons";
+import { Notification } from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [alertMessage, setAlertMessage] = useState("")
 
   useEffect(() => {
     getAll().then((initialPersons) => {
@@ -41,8 +43,11 @@ const App = () => {
     if (isAlreadyInPersons) {
       window.alert(`${newName} is already added to phonebook`);
     } else {
-      addPerson(newPerson).then((returnedPerson) => {
+      addPerson(newPerson)
+      .then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
+        setAlertMessage(`Added ${returnedPerson.name}`)
+        setTimeout(() => {setAlertMessage(null)}, 5000)
       });
     }
   };
@@ -65,6 +70,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={alertMessage} />
       <Filter handleSearchChange={handleSearchChange} />
 
       <h2>add a new</h2>
