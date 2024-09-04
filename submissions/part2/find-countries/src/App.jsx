@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { getAllPersons } from "./services/results";
 import axios from "axios";
 
-const Results = ({ numOfResults, searchResults }) => {
+const Results = ({ numberOfResults, searchResults }) => {
   switch (true) {
-    case numOfResults === 1:
+    case numberOfResults === 0:
+      return null
+    case numberOfResults === 1:
       return (
         <>
           <p>One Result</p>
         </>
       );
-    case numOfResults > 1 && numOfResults <= 10:
+    case numberOfResults > 1 && numberOfResults <= 10:
       return (
         <>
           <p>Between one and ten</p>
@@ -30,11 +32,12 @@ const Results = ({ numOfResults, searchResults }) => {
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [allSearchResults, setAllSearchResults] = useState([]);
+  const [numberOfResults, setNumberOfResults] = useState(0)
 
   useEffect(() => {
     getAllPersons().then( (results) => {
-      setSearchResults(results)
+      setAllSearchResults(results)
     }
     )
      }, 
@@ -43,12 +46,19 @@ function App() {
   const handleSearchChange = (event) => {
     const newSearchValue = event.target.value;
     setSearchValue(newSearchValue)
+    
+    setNumberOfResults(10)
+    console.log(numberOfResults)
   }
+
+  const searchResults = allSearchResults.filter((result) =>
+    result.name.common.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
       Find countries: <input type="text" onChange={handleSearchChange} ></input>
-      <Results numOfResults={10} searchResults={searchResults} />
+      <Results numberOfResults={numberOfResults} searchResults={searchResults} />
     </>
   );
 }
