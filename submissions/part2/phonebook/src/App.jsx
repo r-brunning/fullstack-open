@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [alertMessage, setAlertMessage] = useState("")
+  const [alertType, setAlertType] = useState("")
 
   useEffect(() => {
     getAll().then((initialPersons) => {
@@ -46,6 +47,7 @@ const App = () => {
       addPerson(newPerson)
       .then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
+        setAlertType("newPerson")
         setAlertMessage(`Added ${returnedPerson.name}`)
         setTimeout(() => {setAlertMessage(null)}, 5000)
       });
@@ -61,16 +63,23 @@ const App = () => {
     const shouldDelete = window.confirm(`Should ${personToDelete.name} be deleted?`)
 
     if (shouldDelete) {
-      deletePerson(id).then(() =>
-        {setPersons(persons.filter(p => p.id != id))})
+      deletePerson(id)
+      .then(() =>
+        {setPersons(persons.filter(p => p.id !==  id))})
+      .catch((error) => {
+        if (error.response){
+        setPersons(persons.filter(p => p.id !==  id))
+        setAlertType("alreadyDeletedAlert")
+        setAlertMessage(`${personToDelete.name} has already been deleted from the server`)
+        setTimeout(() => {setAlertMessage(null)}, 5000)}
+      })
     } 
-
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={alertMessage} />
+      <Notification message={alertMessage} alertType={alertType} />
       <Filter handleSearchChange={handleSearchChange} />
 
       <h2>add a new</h2>
