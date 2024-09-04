@@ -1,7 +1,7 @@
 export const CountryDetailsCard = ({ country }) => {
   const countryDetailsCardStyles = {
-    backgroundColor: 'lightBlue',
-  }
+    backgroundColor: "lightBlue",
+  };
 
   return (
     <div style={countryDetailsCardStyles}>

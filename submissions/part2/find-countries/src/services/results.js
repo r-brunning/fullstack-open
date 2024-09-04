@@ -5,4 +5,4 @@ const getAllPersons = () => {
     return request.then(response => response.data)
 }
 
-export {getAllPersons}
+export { getAllPersons }

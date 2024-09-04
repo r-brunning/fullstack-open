@@ -17,13 +17,13 @@ function App() {
   const handleSearchChange = (event) => {
     const newSearchValue = event.target.value;
 
-    if (newSearchValue === ""){
+    if (newSearchValue === "") {
       setSearchValue("");
       setSearchResults([]);
       setNumberOfResults(0);
       return;
     }
-    
+
     const newSearchResults = allCountriesResults.filter((result) =>
       result.name.common.toLowerCase().includes(newSearchValue.toLowerCase())
     );
