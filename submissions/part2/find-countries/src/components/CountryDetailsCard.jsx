@@ -1,3 +1,5 @@
+import { CapitalCityWeather } from "./CapitalCityWeather";
+
 export const CountryDetailsCard = ({ country }) => {
   const countryDetailsCardStyles = {
     backgroundColor: "lightBlue",
@@ -10,12 +12,14 @@ export const CountryDetailsCard = ({ country }) => {
       <p>Area {country.area}</p>
       <img src={country.flags.png}></img>
 
-      <h3>Languages:</h3>
+      <h3>Languages</h3>
       <ul>
         {Object.entries(country.languages).map(([code, language]) => (
           <li key={code}>{language}</li>
         ))}
       </ul>
+
+      <CapitalCityWeather country={country} />
     </div>
   );
 };

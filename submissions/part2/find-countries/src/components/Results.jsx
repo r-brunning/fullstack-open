@@ -1,8 +1,11 @@
 import { CountryDetailsCard } from "./CountryDetailsCard";
 import { CountryList } from "./CountryList";
 
-export const Results = ({ numberOfResults, searchResults }) => {
+export const Results = ({ numberOfResults, searchResults, searchValue }) => {
   switch (true) {
+    case numberOfResults === 0 && searchValue !== "":
+      return <p>No countries found: try a different search</p>
+
     case numberOfResults === 0:
       return <p>Start typing to begin your search</p>;
 
