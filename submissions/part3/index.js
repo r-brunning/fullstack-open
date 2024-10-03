@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json()) 
+
 let persons = [
     { 
       "id": "1",
@@ -46,6 +48,37 @@ app.delete('/api/persons/:id', (req, res) => {
   const id = req.params.id
   persons = persons.filter(person => person.id !== id)
   res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+
+  if (!body.name) {
+    return res.status(400).json({ 
+      error: 'name missing' 
+    })
+  }
+
+  if (persons.map((person) => person.name).includes(body.name)) {
+    return res.status(400).json({ 
+      error: 'person alrerady in phonebook' 
+    })
+  }
+
+  if (!body.number) {
+    return res.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: Math.random().toString()
+  }
+
+  persons = persons.concat(person)
+  res.json(person)
 })
 
 const PORT = 3001
